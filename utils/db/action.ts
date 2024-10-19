@@ -1,21 +1,6 @@
 import { db } from "./dbConfig";
-import { Users, Subscriptions, GeneratedContent } from "./schema";
-import { eq, sql } from "drizzle-orm";
-
-export async function updateUserPoints(userId: string, points: number) {
-    try {
-      const [updatedUser] = await db
-        .update(Users)
-        .set({ points: sql`${Users.points} + ${points}` })
-        .where(eq(Users.stripeCustomerId, userId))
-        .returning()
-        .execute();
-      return updatedUser;
-    } catch (error) {
-      console.error("Error updating user points:", error);
-      return null;
-    }
-  }
+import { Subscriptions } from "./schema";
+import { eq } from "drizzle-orm";
 
 export async function createOrUpdateSubscription(
     userId: string,
@@ -26,16 +11,6 @@ export async function createOrUpdateSubscription(
     currentPeriodEnd: Date
   ) {
     try {
-      const [user] = await db
-        .select({ id: Users.id })
-        .from(Users)
-        .where(eq(Users.stripeCustomerId, userId))
-        .limit(1);
-  
-      if (!user) {
-        console.error(`No user found with stripeCustomerId: ${userId}`);
-        return null;
-      }
   
       const existingSubscription = await db
         .select()
@@ -61,7 +36,7 @@ export async function createOrUpdateSubscription(
         [subscription] = await db
           .insert(Subscriptions)
           .values({
-            userId: user.id,
+            userId: userId,
             stripeSubscriptionId,
             plan,
             status,

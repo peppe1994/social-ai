@@ -22,8 +22,7 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      //success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/generate?session_id={CHECKOUT_SESSION_ID}`,
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/generate?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pricing`,
       client_reference_id: userId,
     });
@@ -31,7 +30,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error creating checkout session:", error);
     return NextResponse.json(
-      { error: "Error creating checkout session", details: 'EError during session detail' },
+      { error: "Error creating checkout session", details: 'Error during session detail' },
       { status: 500 }
     );
   }

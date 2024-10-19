@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
+import { createOrUpdateSubscription } from "@/utils/db/action";
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-09-30.acacia",
@@ -80,8 +82,23 @@ export async function POST(req: Request) {
           );
       }
 
-      console.log("@@@STRIPE SUBSCRIPTION: ", subscription);
-      console.log("@@@PLAN: ", plan);
+      console.log(`Creating/updating subscription for user ${userId}`);
+      const updatedSubscription = await createOrUpdateSubscription(
+        userId,
+        subscriptionId,
+        plan,
+        "active",
+        new Date(subscription.current_period_start * 1000),
+        new Date(subscription.current_period_end * 1000)
+      );
+
+      if (!updatedSubscription) {
+        console.error("Failed to create or update subscription");
+        return NextResponse.json(
+          { error: "Failed to create or update subscription" },
+          { status: 500 }
+        );
+      }
       console.log(`Successfully processed subscription for user ${userId}`);
     } catch (error) {
       console.error("Error processing subscription:", error);
