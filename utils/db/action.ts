@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { db } from "./dbConfig";
 import { Subscriptions } from "./schema";
 import { eq } from "drizzle-orm";
@@ -52,10 +51,6 @@ export async function createOrUpdateSubscription(
       return subscription;
     } catch (error) {
       console.error("Error creating or updating subscription:", error);
-      return NextResponse.json(
-        { error: "Failed to create or update subscription: "+error },
-        { status: 501 }
-      );
     }
   }
   
