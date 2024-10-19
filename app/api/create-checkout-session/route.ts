@@ -27,10 +27,10 @@ export async function POST(req: Request) {
       client_reference_id: userId,
     });
     return NextResponse.json({ sessionId: session.id });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating checkout session:", error);
     return NextResponse.json(
-      { error: "Error creating checkout session", details: error.message },
+      { error: "Error creating checkout session", details: 'EError during session detail' },
       { status: 500 }
     );
   }
