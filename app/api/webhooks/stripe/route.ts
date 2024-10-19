@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { createOrUpdateSubscription } from "@/utils/db/action";
+import { useUser } from "@clerk/nextjs";
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -38,9 +39,11 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const userId = session.client_reference_id;
+    const { user } = useUser();
+
     const subscriptionId = session.subscription as string;
 
-    if (!userId || !subscriptionId) {
+    if (!userId || !subscriptionId || !user?.id) {
       console.error("Missing userId or subscriptionId in session", { session });
       return NextResponse.json(
         { error: "Invalid session data" },
@@ -84,7 +87,7 @@ export async function POST(req: Request) {
 
       console.log(`Creating/updating subscription for user ${userId}`);
       const updatedSubscription = await createOrUpdateSubscription(
-        userId,
+        user.id,
         subscriptionId,
         plan,
         "active",
