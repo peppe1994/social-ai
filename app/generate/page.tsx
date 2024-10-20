@@ -14,7 +14,6 @@ import ReactMarkdown from "react-markdown";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
-import Link from "next/link";
 import { Button } from "../../components/ui/button";
 import { NavBar } from "../components/Navbar";
 import { TwitterMock } from "../../components/social-mocks/TwitterMock";
@@ -79,7 +78,6 @@ export default function GenerateContent() {
       setHistory(contentHistory);
     }
   };
-
 
   //TODO: Adding Subscription Stripe check
   const handleGenerate = async () => {
@@ -273,13 +271,6 @@ export default function GenerateContent() {
 
           {/* Main content area */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Points display */}
-            <div className="bg-zinc-800 p-6 rounded-2xl flex items-center justify-between">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full transition-colors">
-                <Link href="/pricing">Upgrade</Link>
-              </Button>
-            </div>
-
             {/* Content generation form */}
             <div className="bg-zinc-800 p-6 rounded-2xl space-y-6">
               <div>
@@ -381,8 +372,8 @@ export default function GenerateContent() {
 
             {/* Generated content display */}
             {(selectedHistoryItem || generatedContent.length > 0) && (
-              <div className="bg-gray-800 p-6 rounded-2xl space-y-4">
-                <h2 className="text-2xl font-semibold text-blue-400">
+              <div className="bg-zinc-800 p-6 rounded-2xl space-y-4">
+                <h2 className="text-2xl font-semibold">
                   {selectedHistoryItem ? "History Item" : "Generated Content"}
                 </h2>
                 {contentType === "twitter" ? (
@@ -413,7 +404,7 @@ export default function GenerateContent() {
                     ))}
                   </div>
                 ) : (
-                  <div className="bg-gray-700 p-4 rounded-xl">
+                  <div className="bg-zinc-700 p-4 rounded-xl">
                     <ReactMarkdown className="prose prose-invert max-w-none text-sm">
                       {selectedHistoryItem
                         ? selectedHistoryItem.content
@@ -426,8 +417,8 @@ export default function GenerateContent() {
 
             {/* Content preview */}
             {generatedContent.length > 0 && (
-              <div className="bg-gray-800 p-6 rounded-2xl">
-                <h2 className="text-2xl font-semibold mb-4 text-blue-400">
+              <div className="bg-zinc-800 p-6 rounded-2xl">
+                <h2 className="text-2xl font-semibold mb-4">
                   Preview
                 </h2>
                 {renderContentMock()}
