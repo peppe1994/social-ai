@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { createOrUpdateSubscription } from "@/utils/db/action";
-import {auth} from "@clerk/nextjs/server"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-09-30.acacia",
@@ -37,8 +36,7 @@ export async function POST(req: Request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    //const userId = session.client_reference_id;
-    const {userId} = auth();
+    const userId = session.client_reference_id;
     const subscriptionId = session.subscription as string;
 
     if (!userId || !subscriptionId) {
@@ -85,7 +83,7 @@ export async function POST(req: Request) {
 
       console.log(`Creating/updating subscription for user ${userId}`);
       const updatedSubscription = await createOrUpdateSubscription(
-        (userId ? userId:'abc-def'),
+        userId,
         subscriptionId,
         plan,
         "active",

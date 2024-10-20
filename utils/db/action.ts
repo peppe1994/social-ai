@@ -1,7 +1,22 @@
 import { db } from "./dbConfig";
-import { Subscriptions } from "./schema";
-import { eq } from "drizzle-orm";
+import { GeneratedContent, Subscriptions } from "./schema";
+import { desc, eq, sql } from "drizzle-orm";
 
+export async function getSubscriptionByUserId(userId: string) {
+  const existingSubscription = await db
+  .select()
+  .from(Subscriptions)
+  .where(eq(Subscriptions.userId, userId))
+  .limit(1);
+
+  if(!existingSubscription) {
+    console.log("@@@@@@@NO SUBSCRIPTION ")
+  }
+  else {
+    console.log("@@@@@@SUBSCRIPTION RETRIVIED: ", existingSubscription);
+    return existingSubscription;
+  }
+}
 export async function createOrUpdateSubscription(
     userId: string,
     stripeSubscriptionId: string,
@@ -54,3 +69,56 @@ export async function createOrUpdateSubscription(
     }
   }
   
+  export async function saveGeneratedContent(
+    userId: string,
+    content: string,
+    prompt: string,
+    contentType: string
+  ) {
+    try {
+      const [savedContent] = await db
+        .insert(GeneratedContent)
+        .values({
+          userId: sql`(SELECT id FROM ${Subscriptions} WHERE user_id = ${userId})`,
+          content,
+          prompt,
+          contentType,
+        })
+        .returning()
+        .execute();
+      return savedContent;
+    } catch (error) {
+      console.error("Error saving generated content:", error);
+      return null;
+    }
+  }
+  
+  export async function getGeneratedContentHistory(
+    userId: string,
+    limit: number = 10
+  ) {
+    try {
+      const history = await db
+        .select({
+          id: GeneratedContent.id,
+          content: GeneratedContent.content,
+          prompt: GeneratedContent.prompt,
+          contentType: GeneratedContent.contentType,
+          createdAt: GeneratedContent.createdAt,
+        })
+        .from(GeneratedContent)
+        .where(
+          eq(
+            GeneratedContent.userId,
+            sql`(SELECT id FROM ${Subscriptions} WHERE user_id = ${userId})`
+          )
+        )
+        .orderBy(desc(GeneratedContent.createdAt))
+        .limit(limit)
+        .execute();
+      return history;
+    } catch (error) {
+      console.error("Error fetching generated content history:", error);
+      return [];
+    }
+  }
