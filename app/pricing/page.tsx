@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { NavBar } from "../components/Navbar";
 import { loadStripe } from "@stripe/stripe-js";
-import { getSubscriptionByUserId } from "@/utils/db/action";
+//import { getSubscriptionByUserId } from "@/utils/db/action";
 
 const pricingPlans = [
   {
@@ -46,11 +46,11 @@ export default function PricingPage() {
   const { isSignedIn, user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
-  const check = async() => {
+/*   const check = async() => {
     if(user?.id){
       let subscription = await getSubscriptionByUserId(user.id)
     }
-  }
+  } */
 
   const handleSubscribe = async (priceId: string) => {
     if (!isSignedIn) {

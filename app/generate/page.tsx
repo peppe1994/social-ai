@@ -8,7 +8,6 @@ import {
   Instagram,
   Linkedin,
   Clock,
-  Zap,
 } from "lucide-react";
 import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import ReactMarkdown from "react-markdown";
@@ -229,21 +228,21 @@ export default function GenerateContent() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-black min-h-screen text-white">
+    <div className="min-h-screen text-white">
       <NavBar />
       <div className="container mx-auto px-4 mb-8 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 mt-14 lg:grid-cols-3 gap-8">
           {/* Left sidebar - History */}
-          <div className="lg:col-span-1 bg-gray-800 rounded-2xl p-6 h-[calc(100vh-12rem)] overflow-y-auto">
+          <div className="lg:col-span-1 bg-zinc-800 rounded-2xl p-6 h-[calc(100vh-12rem)] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-blue-400">History</h2>
-              <Clock className="h-6 w-6 text-blue-400" />
+              <h2 className="text-2xl font-semibold ">History</h2>
+              <Clock className="h-6 w-6 " />
             </div>
             <div className="space-y-4">
               {history.map((item) => (
                 <div
                   key={item.id}
-                  className="p-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition-colors cursor-pointer"
+                  className="p-4 bg-zinc-700 rounded-xl hover:bg-zinc-600 transition-colors cursor-pointer"
                   onClick={() => handleHistoryItemClick(item)}
                 >
                   <div className="flex items-center mb-2">
@@ -275,14 +274,14 @@ export default function GenerateContent() {
           {/* Main content area */}
           <div className="lg:col-span-2 space-y-6">
             {/* Points display */}
-            <div className="bg-gray-800 p-6 rounded-2xl flex items-center justify-between">
+            <div className="bg-zinc-800 p-6 rounded-2xl flex items-center justify-between">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-full transition-colors">
                 <Link href="/pricing">Upgrade</Link>
               </Button>
             </div>
 
             {/* Content generation form */}
-            <div className="bg-gray-800 p-6 rounded-2xl space-y-6">
+            <div className="bg-zinc-800 p-6 rounded-2xl space-y-6">
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-300">
                   Content Type
@@ -291,7 +290,7 @@ export default function GenerateContent() {
                   onValueChange={setContentType}
                   defaultValue={contentType}
                 >
-                  <SelectTrigger className="w-full bg-gray-700 border-none rounded-xl">
+                  <SelectTrigger className="w-full bg-zinc-700 border-none rounded-xl">
                     <SelectValue placeholder="Select content type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -328,7 +327,7 @@ export default function GenerateContent() {
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   rows={4}
-                  className="w-full bg-gray-700 border-none rounded-xl resize-none"
+                  className="w-full bg-zinc-700 border-none rounded-xl resize-none"
                 />
               </div>
 
