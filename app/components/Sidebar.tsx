@@ -32,7 +32,7 @@ const items = [
   },
   {
     title: "Marketing Expert Chatbot",
-    url: "#",
+    url: "/chatbot",
     icon: MessageCircle,
   },
   {
