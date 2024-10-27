@@ -69,9 +69,9 @@ export default function Chatbot() {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarTrigger />
-                <div className="flex flex-row px-4 mb-8 sm:px-6 lg:px-8 py-8">
+                <div className="flex flex-col px-4 mb-8 sm:px-6 lg:px-8 py-8">
                     <h2 className="text-2xl font-bold">Marketing Expert Chatbot</h2>
-                    <div className="max-w-[800px] mx-auto mt-4 sm:mt-12">
+                    <div className="mx-auto mt-4 sm:mt-12">
                         <Chat
                             messages={messages}
                             loading={loading}

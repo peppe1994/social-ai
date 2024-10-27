@@ -1,31 +1,30 @@
 "use client";
-import { useState, useEffect } from "react";
+import { SignInButton, useUser } from "@clerk/nextjs";
+import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import {
-  Loader2,
-  Upload,
+  Clock,
   Copy,
-  Twitter,
   Instagram,
   Linkedin,
-  Clock,
+  Loader2,
+  Twitter,
+  Upload,
 } from "lucide-react";
-import { GoogleGenerativeAI, Part } from "@google/generative-ai";
-import ReactMarkdown from "react-markdown";
-import { SignInButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
-import { Button } from "../../components/ui/button";
-import { NavBar } from "../components/Navbar";
-import { TwitterMock } from "../../components/social-mocks/TwitterMock";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Textarea } from "@/components/ui/textarea";
+import { getGeneratedContentHistory, saveGeneratedContent } from "@/utils/db/action";
 import { InstagramMock } from "../../components/social-mocks/InstagramMock";
 import { LinkedInMock } from "../../components/social-mocks/LinkedinMock";
-import { getGeneratedContentHistory, saveGeneratedContent } from "@/utils/db/action";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "../components/Sidebar";
+import { TwitterMock } from "../../components/social-mocks/TwitterMock";
+import { Button } from "../../components/ui/button";
 import { PrivateNavbar } from "../components/PrivateNavbar";
+import { AppSidebar } from "../components/Sidebar";
 
 const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
