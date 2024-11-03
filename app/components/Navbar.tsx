@@ -50,10 +50,9 @@ export function NavBar() {
                             {userId && (
                                 <Link
                                     href="/generate"
-                                    className="text-gray-300 hover:text-white transition-colors py-2 sm:py-0 relative group"
+                                    className="bg-blue-500 rounded p-2 font-bold text-gray-300 hover:text-white transition-colors relative group"
                                 >
                                     Dashboard
-                                    <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                                 </Link>
                             )}
                             <SignedOut>

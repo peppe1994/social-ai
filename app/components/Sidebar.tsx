@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 // Menu items.
 const items = [
@@ -19,11 +20,6 @@ const items = [
     title: "Social Post and Ads",
     url: "/generate",
     icon: Network,
-  },
-  {
-    title: "Startup Ideas",
-    url: "#",
-    icon: Lightbulb,
   },
   {
     title: "Startup Roadmap",
@@ -41,13 +37,8 @@ const items = [
     icon: Code,
   },
   {
-    title: "Marketing Videos Generation",
-    url: "#",
-    icon: Video,
-  },
-  {
-    title: "Blog Article",
-    url: "#",
+    title: "All templates",
+    url: "/templates",
     icon: Newspaper,
   },
   {
@@ -85,9 +76,9 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="items-center pb-4">
-        <Button className="max-w-[150px] bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl transition-colors">
-          Upgrade your plan
-        </Button>
+        <Link href={'/pricing'} className="max-w-[150px] p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors">
+          Upgrade Plan
+        </Link>
       </SidebarFooter>
     </Sidebar>
   )
